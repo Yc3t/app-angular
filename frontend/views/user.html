@@ -1,17 +1,20 @@
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h2>Iniciar Sesión</h2>
-        <form ng-submit="login()">
-            <div class="mb-3">
-                <label for="username" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="username" ng-model="username" required>
+<h2>Videos</h2>
+<div class="mb-3">
+    <label for="categorySelect" class="form-label">Filter by Category:</label>
+    <select id="categorySelect" class="form-select" ng-model="selectedCategory" ng-change="filterByCategory(selectedCategory)">
+        <option value="">All Categories</option>
+        <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.name }}</option>
+    </select>
+</div>
+<div class="row">
+    <div class="col-md-4 mb-3" ng-repeat="video in videos">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ video.name }}</h5>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" ng-src="{{ video.url | trusted }}" allowfullscreen></iframe>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" ng-model="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Entrar</button>
-        </form>
-        <p class="text-danger mt-3" ng-if="error">{{ error }}</p>
+        </div>
     </div>
 </div>

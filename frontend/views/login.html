@@ -1,114 +1,17 @@
-<h2>Admin Panel</h2>
-<ul class="nav nav-tabs mb-3">
-    <li class="nav-item">
-        <a class="nav-link" ng-class="{'active': currentView === 'users'}" ng-click="changeView('users')">Users</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" ng-class="{'active': currentView === 'categories'}" ng-click="changeView('categories')">Categories</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" ng-class="{'active': currentView === 'videos'}" ng-click="changeView('videos')">Videos</a>
-    </li>
-</ul>
-
-<div ng-if="currentView === 'users'">
-    <h3>Users</h3>
-    <form ng-submit="createItem()">
-        <div class="mb-3">
-            <input type="text" class="form-control" ng-model="newItem.username" placeholder="Username" required>
-        </div>
-        <div class="mb-3">
-            <input type="email" class="form-control" ng-model="newItem.email" placeholder="Email" required>
-        </div>
-        <div class="mb-3">
-            <input type="password" class="form-control" ng-model="newItem.password" placeholder="Password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Add User</button>
-    </form>
-    <table class="table mt-4">
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="user in users">
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning" ng-click="updateItem(user)">Edit</button>
-                    <button class="btn btn-sm btn-danger" ng-click="deleteItem(user)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div ng-if="currentView === 'categories'">
-    <h3>Categories</h3>
-    <form ng-submit="createItem()">
-        <div class="mb-3">
-            <input type="text" class="form-control" ng-model="newItem.name" placeholder="Category Name" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Category</button>
-    </form>
-    <table class="table mt-4">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="category in categories">
-                <td>{{ category.name }}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning" ng-click="updateItem(category)">Edit</button>
-                    <button class="btn btn-sm btn-danger" ng-click="deleteItem(category)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div ng-if="currentView === 'videos'">
-    <h3>Videos</h3>
-    <form ng-submit="createItem()">
-        <div class="mb-3">
-            <input type="text" class="form-control" ng-model="newItem.name" placeholder="Video Name" required>
-        </div>
-        <div class="mb-3">
-            <input type="url" class="form-control" ng-model="newItem.url" placeholder="Video URL" required>
-        </div>
-        <div class="mb-3">
-            <select class="form-control" ng-model="newItem.category_id" required>
-                <option value="">Select Category</option>
-                <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.name }}</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Video</button>
-    </form>
-    <table class="table mt-4">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>URL</th>
-                <th>Category</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="video in videos">
-                <td>{{ video.name }}</td>
-                <td>{{ video.url }}</td>
-                <td>{{ (categories | filter: {id: video.category_id})[0].name }}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning" ng-click="updateItem(video)">Edit</button>
-                    <button class="btn btn-sm btn-danger" ng-click="deleteItem(video)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Iniciar Sesión</h2>
+        <form ng-submit="login()">
+            <div class="mb-3">
+                <label for="username" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="username" ng-model="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" ng-model="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+        </form>
+        <p class="text-danger mt-3" ng-if="error">{{ error }}</p>
+    </div>
 </div>
