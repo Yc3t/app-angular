@@ -1,8 +1,8 @@
 <h2>Videos</h2>
 <div class="mb-3">
-    <label for="categorySelect" class="form-label">Filter by Category:</label>
+    <label for="categorySelect" class="form-label">Filtrar por Categoría:</label>
     <select id="categorySelect" class="form-select" ng-model="selectedCategory" ng-change="filterByCategory(selectedCategory)">
-        <option value="">All Categories</option>
+        <option value="">Todas las Categorías</option>
         <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.name }}</option>
     </select>
 </div>
