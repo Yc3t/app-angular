@@ -23,6 +23,13 @@
         <div class="mb-3">
             <input type="password" class="form-control" ng-model="newItem.password" placeholder="Contraseña" required>
         </div>
+        <div class="mb-3">
+            <select class="form-control" ng-model="newItem.role" required>
+                <option value="" disabled selected>Seleccionar Rol</option>
+                <option value="user">Usuario</option>
+                <option value="admin">Administrador</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Agregar Usuario</button>
     </form>
     <table class="table mt-4">
@@ -30,6 +37,7 @@
             <tr>
                 <th>Nombre de usuario</th>
                 <th>Correo electrónico</th>
+                <th>Rol</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -37,8 +45,9 @@
             <tr ng-repeat="user in users">
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
+                <td>{{ user.role === 'admin' ? 'Administrador' : 'Usuario' }}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning" ng-click="updateItem(user)">Editar</button>
+                    <button class="btn btn-sm btn-warning" ng-click="openEditModal(user)">Editar</button>
                     <button class="btn btn-sm btn-danger" ng-click="deleteItem(user)">Eliminar</button>
                 </td>
             </tr>
@@ -65,7 +74,7 @@
             <tr ng-repeat="category in categories">
                 <td>{{ category.name }}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning" ng-click="updateItem(category)">Editar</button>
+                    <button class="btn btn-sm btn-warning" ng-click="openEditModal(category)">Editar</button>
                     <button class="btn btn-sm btn-danger" ng-click="deleteItem(category)">Eliminar</button>
                 </td>
             </tr>
@@ -103,12 +112,62 @@
             <tr ng-repeat="video in videos">
                 <td>{{ video.name }}</td>
                 <td>{{ video.url }}</td>
-                <td>{{ (categories | filter: {id: video.category_id})[0].name }}</td>
+                <td>{{ getCategoryName(video.category_id) }}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning" ng-click="updateItem(video)">Editar</button>
+                    <button class="btn btn-sm btn-warning" ng-click="openEditModal(video)">Editar</button>
                     <button class="btn btn-sm btn-danger" ng-click="deleteItem(video)">Eliminar</button>
                 </td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Modal de Edición -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar {{ currentView | capitalize }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="submitEdit()">
+                    <div class="mb-3" ng-if="currentView === 'users'">
+                        <label for="editUsername" class="form-label">Nombre de usuario</label>
+                        <input type="text" class="form-control" id="editUsername" ng-model="editItem.username" required>
+                    </div>
+                    <div class="mb-3" ng-if="currentView === 'users'">
+                        <label for="editEmail" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="editEmail" ng-model="editItem.email" required>
+                    </div>
+                    <div class="mb-3" ng-if="currentView === 'users'">
+                        <label for="editRole" class="form-label">Rol</label>
+                        <select class="form-control" id="editRole" ng-model="editItem.role" required>
+                            <option value="user">Usuario</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" ng-if="currentView === 'categories'">
+                        <label for="editName" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editName" ng-model="editItem.name" required>
+                    </div>
+                    <div class="mb-3" ng-if="currentView === 'videos'">
+                        <label for="editVideoName" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editVideoName" ng-model="editItem.name" required>
+                    </div>
+                    <div class="mb-3" ng-if="currentView === 'videos'">
+                        <label for="editVideoUrl" class="form-label">URL</label>
+                        <input type="url" class="form-control" id="editVideoUrl" ng-model="editItem.url" required>
+                    </div>
+                    <div class="mb-3" ng-if="currentView === 'videos'">
+                        <label for="editVideoCategory" class="form-label">Categoría</label>
+                        <select class="form-control" id="editVideoCategory" ng-model="editItem.category_id" required>
+                            <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.name }}</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
