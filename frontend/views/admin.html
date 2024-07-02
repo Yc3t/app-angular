@@ -1,0 +1,114 @@
+<h2>Panel de Administración</h2>
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link" ng-class="{'active': currentView === 'users'}" ng-click="changeView('users')">Usuarios</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" ng-class="{'active': currentView === 'categories'}" ng-click="changeView('categories')">Categorías</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" ng-class="{'active': currentView === 'videos'}" ng-click="changeView('videos')">Vídeos</a>
+    </li>
+</ul>
+
+<div ng-if="currentView === 'users'">
+    <h3>Usuarios</h3>
+    <form ng-submit="createItem()">
+        <div class="mb-3">
+            <input type="text" class="form-control" ng-model="newItem.username" placeholder="Nombre de usuario" required>
+        </div>
+        <div class="mb-3">
+            <input type="email" class="form-control" ng-model="newItem.email" placeholder="Correo electrónico" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" ng-model="newItem.password" placeholder="Contraseña" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+    </form>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Nombre de usuario</th>
+                <th>Correo electrónico</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" ng-click="updateItem(user)">Editar</button>
+                    <button class="btn btn-sm btn-danger" ng-click="deleteItem(user)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div ng-if="currentView === 'categories'">
+    <h3>Categorías</h3>
+    <form ng-submit="createItem()">
+        <div class="mb-3">
+            <input type="text" class="form-control" ng-model="newItem.name" placeholder="Nombre de la categoría" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Categoría</button>
+    </form>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="category in categories">
+                <td>{{ category.name }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" ng-click="updateItem(category)">Editar</button>
+                    <button class="btn btn-sm btn-danger" ng-click="deleteItem(category)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div ng-if="currentView === 'videos'">
+    <h3>Vídeos</h3>
+    <form ng-submit="createItem()">
+        <div class="mb-3">
+            <input type="text" class="form-control" ng-model="newItem.name" placeholder="Nombre del vídeo" required>
+        </div>
+        <div class="mb-3">
+            <input type="url" class="form-control" ng-model="newItem.url" placeholder="URL del vídeo" required>
+        </div>
+        <div class="mb-3">
+            <select class="form-control" ng-model="newItem.category_id" required>
+                <option value="">Seleccionar Categoría</option>
+                <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.name }}</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Vídeo</button>
+    </form>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>URL</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="video in videos">
+                <td>{{ video.name }}</td>
+                <td>{{ video.url }}</td>
+                <td>{{ (categories | filter: {id: video.category_id})[0].name }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" ng-click="updateItem(video)">Editar</button>
+                    <button class="btn btn-sm btn-danger" ng-click="deleteItem(video)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
