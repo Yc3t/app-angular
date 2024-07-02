@@ -7,7 +7,8 @@ const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 3000;
-const SECRET_KEY = 'your_secret_key';  // Cambiar esto por una cadena aleatoria segura en producción
+const SECRET_KEY = '1231244321';  
+
 
 app.use(cors());
 app.use(bodyParser.json());
