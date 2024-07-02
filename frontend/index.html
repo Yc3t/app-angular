@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="#!">Aplicación Multimedia</a>
             <div class="navbar-nav" ng-if="isLoggedIn()">
-                <a class="nav-link" href="#!admin" ng-if="isAdmin()">Panel Admin</a>
+                <a class="nav-link" href="#!admin" ng-if="isAdmin()">Panel de Administración</a>
                 <a class="nav-link" href="#!user">Vista Usuario</a>
                 <a class="nav-link" href="#!" ng-click="logout()">Salir</a>
             </div>
@@ -22,4 +22,13 @@
     <div class="container mt-4">
         <div ng-view></div>
     </div>
+
+    <script src="app.js"></script>
+    <script src="controllers/loginController.js"></script>
+    <script src="controllers/adminController.js"></script>
+    <script src="controllers/userController.js"></script>
+    <script src="controllers/navController.js"></script>
+    <script src="services/authService.js"></script>
+    <script src="services/dataService.js"></script>
+</body>
 </html>
