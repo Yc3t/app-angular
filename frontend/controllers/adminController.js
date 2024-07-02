@@ -1,5 +1,4 @@
 app.controller('AdminController', function($scope, DataService) {
-    // Initialize variables
     $scope.users = [];
     $scope.categories = [];
     $scope.videos = [];
@@ -7,7 +6,7 @@ app.controller('AdminController', function($scope, DataService) {
     $scope.newItem = {};
     $scope.editItem = {};
 
-    // Load users
+    // usuarios
     $scope.loadUsers = function() {
         DataService.getUsers().then(function(users) {
             $scope.users = users;
@@ -16,7 +15,7 @@ app.controller('AdminController', function($scope, DataService) {
         });
     };
 
-    // Load categories
+    // categorias
     $scope.loadCategories = function() {
         DataService.getCategories().then(function(categories) {
             $scope.categories = categories;
@@ -25,7 +24,7 @@ app.controller('AdminController', function($scope, DataService) {
         });
     };
 
-    // Load videos
+    // videos
     $scope.loadVideos = function() {
         DataService.getVideos().then(function(videos) {
             $scope.videos = videos;
@@ -34,21 +33,21 @@ app.controller('AdminController', function($scope, DataService) {
         });
     };
 
-    // Change the current view
+    
     $scope.changeView = function(view) {
         $scope.currentView = view;
-        $scope.newItem = {}; // Reset the newItem object
+        $scope.newItem = {}; 
         if (view === 'users') {
             $scope.loadUsers();
         } else if (view === 'categories') {
             $scope.loadCategories();
         } else if (view === 'videos') {
             $scope.loadVideos();
-            $scope.loadCategories(); // We need categories for the video form
+            $scope.loadCategories(); 
         }
     };
 
-    // Create a new item
+    
     $scope.createItem = function() {
         var createPromise;
         if ($scope.currentView === 'users') {
@@ -61,22 +60,21 @@ app.controller('AdminController', function($scope, DataService) {
 
         createPromise.then(function(response) {
             console.log('Item created successfully:', response);
-            $scope.changeView($scope.currentView); // Refresh the current view
-            $scope.newItem = {}; // Reset the form
+            $scope.changeView($scope.currentView); 
+            $scope.newItem = {}; 
         }).catch(function(error) {
             console.error('Error creating item:', error);
-            // Handle error (e.g., show error message to user)
+ 
         });
     };
 
-    // Open edit modal
+  
     $scope.openEditModal = function(item) {
         $scope.editItem = angular.copy(item);
         var editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
     };
 
-    // Submit edit
     $scope.submitEdit = function() {
         var updatePromise;
         if ($scope.currentView === 'users') {
@@ -91,15 +89,14 @@ app.controller('AdminController', function($scope, DataService) {
             console.log('Item updated successfully:', response);
             var editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
             editModal.hide();
-            $scope.changeView($scope.currentView); // Refresh the current view
+            $scope.changeView($scope.currentView); 
         }).catch(function(error) {
             console.error('Error updating item:', error);
-            // Handle error (e.g., show error message to user)
         });
     };
 
-    // Delete an item
-    $scope.deleteItem = function(item) {
+    // quitar item
+   $scope.deleteItem = function(item) {
         var deletePromise;
         if ($scope.currentView === 'users') {
             deletePromise = DataService.deleteUser(item.id);
@@ -111,14 +108,12 @@ app.controller('AdminController', function($scope, DataService) {
 
         deletePromise.then(function(response) {
             console.log('Item deleted successfully:', response);
-            $scope.changeView($scope.currentView); // Refresh the current view
+            $scope.changeView($scope.currentView); 
         }).catch(function(error) {
             console.error('Error deleting item:', error);
-            // Handle error (e.g., show error message to user)
         });
     };
 
-    // Helper function to get category name by id
     $scope.getCategoryName = function(categoryId) {
         var category = $scope.categories.find(function(cat) {
             return cat.id === categoryId;
@@ -126,11 +121,9 @@ app.controller('AdminController', function($scope, DataService) {
         return category ? category.name : 'Unknown';
     };
 
-    // Initialize the view
     $scope.changeView('users');
 });
 
-// Filter to capitalize the first letter
 app.filter('capitalize', function() {
     return function(input) {
         return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
